@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <title>Search Documents</title>
+</head>
+<body>
+<main>
+    <h3>Search documents:</h3>
+    <form>
+        <input type="text" id="searchInput" placeholder="Query">
+        <button id="searchBtn">Search</button>
+    </form>
+    <a href="/upload">Upload documents</a>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Page Number</th>
+                <th>Title</th>
+                <th>Similarity</th>
+                <th style="width: 75%;">Content</th>
+            </tr>
+            </thead>
+            <tbody id="resultsTable">
+            </tbody>
+        </table>
+    </div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

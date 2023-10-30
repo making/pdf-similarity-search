@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+<body>
+<main>
+    <h3>Upload documents:</h3>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="files" multiple>
+        <button type="submit">Upload</button>
+    </form>
+    <a href="/">Search documents</a>
+    <div id="messages">
+        {{#message}}
+            <p>{{message}}</p>
+        {{/message}}
+    </div>
+</main>
+{{#id}}
+    <script>
+        const eventSource = new EventSource('/upload/{{id}}/progress');
+        const messageDiv = document.getElementById('messages');
+
+        eventSource.onmessage = function (event) {
+            const p = document.createElement('p');
+            p.textContent = event.data;
+            messageDiv.appendChild(p);
+        };
+
+        eventSource.onerror = function (error) {
+            console.error('EventSource failed:', error);
+            eventSource.close();
+        };
+    </script>
+{{/id}}
+</body>
+</html>
