@@ -87,7 +87,7 @@ public class UploadController {
 					}
 					catch (RuntimeException e) {
 						documentReader = new PagePdfDocumentReader(resource, PdfDocumentReaderConfig.builder()
-							.withPagesPerDocument(4)
+							.withPagesPerDocument(2)
 							.withPageExtractedTextFormatter(
 									PageExtractedTextFormatter.builder().withNumberOfBottomTextLinesToDelete(2).build())
 							.build());
