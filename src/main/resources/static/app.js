@@ -39,7 +39,7 @@ const performSearch = () => {
 };
 
 searchBtn.addEventListener('click', performSearch);
-searchInput.addEventListener('keyup', event => {
+searchInput.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
         performSearch();
     }
