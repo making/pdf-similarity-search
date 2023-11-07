@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.document.DocumentReader;
+import org.springframework.ai.reader.ExtractedTextFormatter;
 import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
 import org.springframework.ai.reader.pdf.ParagraphPdfDocumentReader;
 import org.springframework.ai.reader.pdf.config.PdfDocumentReaderConfig;
-import org.springframework.ai.reader.pdf.layout.PageExtractedTextFormatter;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -89,7 +89,7 @@ public class UploadController {
 						documentReader = new PagePdfDocumentReader(resource, PdfDocumentReaderConfig.builder()
 							.withPagesPerDocument(2)
 							.withPageExtractedTextFormatter(
-									PageExtractedTextFormatter.builder().withNumberOfBottomTextLinesToDelete(2).build())
+									ExtractedTextFormatter.builder().withNumberOfBottomTextLinesToDelete(2).build())
 							.build());
 					}
 					emitter.send(SseEmitter.event()
