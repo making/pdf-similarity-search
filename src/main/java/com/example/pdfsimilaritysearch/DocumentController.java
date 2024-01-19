@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,17 +23,20 @@ public class DocumentController {
 	@GetMapping(path = "/documents")
 	public List<Map<String, Object>> search(@RequestParam String query, @RequestParam(defaultValue = "4") int k,
 			Model model) {
-		List<Map<String, Object>> documents = this.vectorStore.similaritySearch(query, k).stream().map(document -> {
-			Map<String, Object> metadata = document.getMetadata();
-			return Map.of( //
-					"content", document.getContent(), //
-					"file_name", metadata.get("file_name"), //
-					"page_number", metadata.get("page_number"), //
-					"end_page_number", Objects.requireNonNullElse(metadata.get("end_page_number"), ""), //
-					"title", Objects.requireNonNullElse(metadata.get("title"), "-"), //
-					"similarity", 1 - (float) metadata.get("distance") //
-			);
-		}).toList();
+		List<Map<String, Object>> documents = this.vectorStore.similaritySearch(SearchRequest.query(query).withTopK(k))
+			.stream()
+			.map(document -> {
+				Map<String, Object> metadata = document.getMetadata();
+				return Map.of( //
+						"content", document.getContent(), //
+						"file_name", metadata.get("file_name"), //
+						"page_number", metadata.get("page_number"), //
+						"end_page_number", Objects.requireNonNullElse(metadata.get("end_page_number"), ""), //
+						"title", Objects.requireNonNullElse(metadata.get("title"), "-"), //
+						"similarity", 1 - (float) metadata.get("distance") //
+				);
+			})
+			.toList();
 		return documents;
 	}
 
